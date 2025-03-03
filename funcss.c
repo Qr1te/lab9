@@ -13,7 +13,7 @@ char Try_answer() {
     }
     fflush(stdin);
     return answer;
-} {
+}
     char answer;
     scanf(" %c", &answer);
     while (answer != 'N' && answer != 'n' && answer != 'Y' && answer != 'y') {
