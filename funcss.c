@@ -14,16 +14,7 @@ char Try_answer() {
     fflush(stdin);
     return answer;
 }
-    char answer;
-    scanf(" %c", &answer);
-    while (answer != 'N' && answer != 'n' && answer != 'Y' && answer != 'y') {
-        fflush(stdin);
-        puts("Give a correct answer!");
-        scanf(" %c", &answer);
-    }
-    fflush(stdin);
-    return answer;
-}
+
 void setNumber(int* number)
 {
     int i = 0, hasnegative = 1;
