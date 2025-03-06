@@ -46,73 +46,61 @@ void nameFile(char **filename, int n_arg, char *arg[])
 
 }
 void fillFile(char *filename){
-    FILE *fp =   fopen(filename, "w");
-    puts("enter words");
-    int s = getchar();
-    while(s != '\n' ){
-        fprintf(fp, "%c", s);
-        s = getchar();
+    FILE *fp = fopen(filename, "w");
+    puts("Enter words:");
+    char ch = getchar();
+    while (ch != '\n') {
+        fprintf(fp, "%c", ch);
+        ch = getchar();
     }
-    printf("\n");
-    fclose(fp);
-    fopen(filename,"r");
+    fclose(fp);}
+void outputFile(char *filename){
+    FILE * fp = fopen(filename,"r");
     char c;
     while(fscanf(fp,"%c", &c)!= EOF){
         printf("%c",c);
     }
     printf("\n");
-    fclose(fp);
-}
+    fclose(fp);}
+
+
 
 
 char* findWord(char *filename, int point) {
 
     FILE *fp = fopen(filename, "r");
-    fseek(fp, point, SEEK_SET);
-    char c;
-    int size = 1;
-    char *word = (char *) malloc( sizeof(char));
+    char* word = NULL, ch = '\0';
     int i = 0;
-    while (fscanf(fp, "%c", &c) == 1) {
-        if (c == ' ' || c == '\n') {
-            break;
-        }
-        word[i++] = c;
-        if (i >= size - 1) {
-            size *= 2;
-            char *temp = (char *) realloc(word, size);
-            word = temp;
-        }
+    FILE *file = fopen(filename, "r");
+    fseek(file, point, SEEK_SET);
+
+    while (fread(&ch, sizeof(char), 1, file) != 0 && ch != ' ') {
+        word = (char*)realloc(word, (i + 2) * sizeof(char));
+        word[i++] = ch;
     }
-    word[i] = '\0';
+
+    if (word != NULL) word[i] = '\0';
+    fclose(file);
+
+
     fclose(fp);
     return word;
     }
-   /*void reverse(char *filename, int pos, int length ){
-        FILE *fp = fopen(filename, "r+");
-
-        int end = pos + length - 1;
-        char chB, chE;
-
-        while (pos < end) {
-            fseek(fp, pos, SEEK_SET);
-            fread(&chB, sizeof(char), 1, fp);
-
-            fseek(fp, end, SEEK_SET);
-            fread(&chE, sizeof(char), 1, fp);
-
-            fseek(fp, pos, SEEK_SET);
-            fwrite(&chE, sizeof(char), 1, fp);
-
-            fseek(fp, end, SEEK_SET);
-            fwrite(&chB, sizeof(char), 1, fp);
-
-            pos++;
-            end--;
-        }
-
-        fclose(fp);
-}*/
+   void reverse(char *filename, int pos, int length ){
+       FILE *file = fopen(filename, "r+");
+       for (int i = 0; i < length / 2; i++) {
+           char chB, chE;
+           fseek(file, pos + i, SEEK_SET);
+           fscanf(file, "%c", &chB);
+           fseek(file, pos + length - i - 1, SEEK_SET);
+           fscanf(file, "%c", &chE);
+           fseek(file, pos + i, SEEK_SET);
+           fprintf(file, "%c", chE);
+           fseek(file, pos + length - i - 1, SEEK_SET);
+           fprintf(file, "%c", chB);
+       }
+       fclose(file);
+}
 
    void reverse1(char *word, int len){
        for (int j = 0; j < len / 2; j++) {
@@ -154,15 +142,15 @@ void outputReversedWords(char *filename){
     while (word != NULL) {
         int wordlen = (int) strlen(word);
         if (wordlen > len) {
-            reverse1(word, wordlen);
-            printf("%s\n", word);
+            reverse(filename, point, wordlen);
+
         }
 
         point += wordlen + 1;
         free(word);
 
         word = findWord(filename, point);
-    }
+    } outputFile(filename);
    }
 
 

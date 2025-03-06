@@ -13,6 +13,7 @@ char Try_answer();
 void setNumber(int* number);
 void nameFile(char **filename, int n_arg, char *arg[]);
 void fillFile(char *filename);
+void outputFile(char *filename);
 void scanString(char **string, int *size);
 char* findWord(char *filename, int point);
 void outputWord(char *filename);
